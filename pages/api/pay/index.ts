@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         email: email,
         card: token,
       });
-      console.log(customer)
 
       const charge = await payjp.charges.create({
         amount: amount,
@@ -20,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         customer: customer.id,
         description: note,
       });
-      console.log(charge)
       res.status(200).json({ success: true, charge });
     } catch (error) {
       res.status(500).json({ success: false });

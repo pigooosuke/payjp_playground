@@ -25,13 +25,14 @@ export default function Index() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // const token = 'tok_553ebc1026b083d0fbc6f490dbf7';
+      let routerQuery = {'token': router.query["payjp-token"], ...router.query};
+      delete routerQuery["payjp-token"];
       const response = await fetch('/api/pay', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, amount, note, ...router.query }),
+        body: JSON.stringify({ email, amount, note, ...routerQuery }),
       });
 
       const resp = await response.json();
