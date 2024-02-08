@@ -62,13 +62,13 @@ export default function Index() {
       >
         <article className="card">
           <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="note">
-            カード情報を入力してください:<br/>
-            <Link className="text-blue-700" href="https://pay.jp/docs/testcard">テストカードはここを確認</Link>
+            テストカード情報を入力してください:<br/>
+            <Link className="text-blue-700" href="https://pay.jp/docs/testcard" target='_blank'>テストカードはここを確認</Link>
           </label>
           {router.query['payjp-token'] ? (
-            <span className='text-blue-700'>カード情報が正常に登録されました。</span>
+            <span className='text-sm font-bold text-blue-700'>カード情報が正常に登録されました。</span>
           ) : (
-            <span className='text-red-700'>カード情報が登録されていません。</span>
+            <span className='text-sm font-bold text-red-700'>カード情報が登録されていません。</span>
           )}
         </article>
         <article className="mt-10 mb-4">

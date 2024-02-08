@@ -6,7 +6,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     const payjp = Payjp(process.env.PAYJP_SECRET_KEY || '');
     const { email, amount, note, token }: { email: string; amount: number; note: string; token: string } = req.body;
-
     try {
       const customer = await payjp.customers.create({
         email: email,
@@ -19,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         customer: customer.id,
         description: note,
       });
-      res.status(200).json({ success: true, charge });
+      res.status(200).json({ success: true });
     } catch (error) {
       res.status(500).json({ success: false });
     }
