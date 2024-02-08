@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react';
+import type { PayAPIResponse } from '../interface/pay.d.ts';
 
 export default function Index() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Index() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      let routerQuery = {'token': router.query["payjp-token"], ...router.query};
+      const routerQuery = {'token': router.query["payjp-token"], ...router.query};
       delete routerQuery["payjp-token"];
       const response = await fetch('/api/pay', {
         method: 'POST',
@@ -35,7 +36,7 @@ export default function Index() {
         body: JSON.stringify({ email, amount, note, ...routerQuery }),
       });
 
-      const resp = await response.json();
+      const resp = await response.json() as PayAPIResponse;
 
       if (resp.success) {
         setIsSubmitted(true);
@@ -63,7 +64,7 @@ export default function Index() {
         <article className="card">
           <label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="note">
             テストカード情報を入力してください:<br/>
-            <Link className="text-blue-700" href="https://pay.jp/docs/testcard" target='_blank'>テストカードはここを確認</Link>
+            <Link className="text-blue-700 hover:text-gray-600 underline" href="https://pay.jp/docs/testcard" target='_blank'>テストカードはここを確認</Link>
           </label>
           {router.query['payjp-token'] ? (
             <span className='text-sm font-bold text-blue-700'>カード情報が正常に登録されました。</span>

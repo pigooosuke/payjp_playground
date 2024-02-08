@@ -1,18 +1,18 @@
 import Payjp from 'payjp';
-
+import type {PayAPIRequest} from '../../../interface/pay.d.ts';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const payjp = Payjp(process.env.PAYJP_SECRET_KEY || '');
-    const { email, amount, note, token }: { email: string; amount: number; note: string; token: string } = req.body;
+    const { email, amount, note, token } = req.body as PayAPIRequest;
     try {
       const customer = await payjp.customers.create({
         email: email,
         card: token,
       });
 
-      const charge = await payjp.charges.create({
+      await payjp.charges.create({
         amount: amount,
         currency: 'jpy',
         customer: customer.id,
